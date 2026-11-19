@@ -12,13 +12,13 @@ All sections are mandatory. Incomplete PRs will be closed by the risk gate revie
 ## Linked Jira Ticket (required)
 
 - **Jira Ticket ID:** `KAN-X` (e.g. `KAN-2`, `KAN-3`, `KAN-4`)
-- **Board:** [KAN](https://jira.example.com/browse/KAN)
+- **Board:** [KAN](https://johnlau13168.atlassian.net/jira/software/projects/KAN/boards/1)
 - **Status:** To Do / In Progress / In Review
 
 ## Confluence BRS / FS Verification (required)
 
-- [ ] I have verified this change against **[BRS-AML-104](https://confluence.example.com/display/BRS/BRS-AML-104)** (Business Requirements Specification)
-- [ ] I have verified this change against **[FS-AML-104](https://confluence.example.com/display/FS/FS-AML-104)** (Functional Specification)
+- [ ] I have verified this change against **[BRS-AML-104](https://johnlau13168.atlassian.net/wiki/spaces/AFD)** (Business Requirements Specification)
+- [ ] I have verified this change against **[FS-AML-104](https://johnlau13168.atlassian.net/wiki/spaces/AFD)** (Functional Specification)
 - Affected rule IDs: `FS-01 (KAN-2)` / `FS-02 (KAN-3)` / `FS-03 (KAN-4)` (tick all that apply)
   - [ ] FS-01 -- settled outward MT103, `amt_hkd >= 80000.00` (strict boundary), active high-risk countries `IR`/`KP`/`MM`, T-1 FX fallback, `swift_uetr` idempotency
   - [ ] FS-02 -- NULL / blank / non-ISO `dest_ctry_cd` regardless of amount

@@ -9,13 +9,10 @@ Governed by **GitHub Flow** CI/CD with a blocking *risk gate* and aligned with
 
 | Artefact | Link |
 | --- | --- |
-| Business Requirements | [BRS-AML-104](https://confluence.example.com/display/BRS/BRS-AML-104) (Confluence) |
-| Functional Specification | [FS-AML-104](https://confluence.example.com/display/FS/FS-AML-104) (Confluence) |
-| Delivery board | [KAN](https://jira.example.com/browse/KAN) (Jira) — `KAN-2`, `KAN-3`, `KAN-4` |
+| Business Requirements | [BRS-AML-104](https://johnlau13168.atlassian.net/wiki/spaces/AFD) (Confluence — space `AFD`) |
+| Functional Specification | [FS-AML-104](https://johnlau13168.atlassian.net/wiki/spaces/AFD) (Confluence — space `AFD`) |
+| Delivery board | [KAN](https://johnlau13168.atlassian.net/jira/software/projects/KAN/boards/1) (Jira) — `KAN-2`, `KAN-3`, `KAN-4` |
 | CI risk gate | `.github/workflows/ci-risk-gate.yml` |
-
-> Replace the `confluence.example.com` / `jira.example.com` URLs with your
-> tenant's real spaces when onboarding.
 
 ---
 
