@@ -1,0 +1,12 @@
+# Normalise line endings: LF in the repository, CRLF allowed on Windows checkouts.
+* text=auto
+
+*.py   text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.md   text eol=lf
+
+*.png  binary
+*.jpg  binary
+*.pdf  binary

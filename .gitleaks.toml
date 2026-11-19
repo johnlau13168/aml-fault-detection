@@ -1,0 +1,81 @@
+# Gitleaks configuration -- HKSAR S17 (Computer Crime / data security) aligned.
+# Blocks hardcoded API keys, database passwords and SWIFT credentials.
+# Used by .pre-commit-config.yaml and .github/workflows/ci-risk-gate.yml.
+
+title = "aml-fault-detection gitleaks config"
+
+[extend]
+useDefault = true
+
+# ---------------------------------------------------------------------------
+# Custom rules: SWIFT / banking credentials (BRS-AML-104 security controls)
+# ---------------------------------------------------------------------------
+
+[[rules]]
+id = "swift-bic-and-fin-copy-paste-credentials"
+description = "Possible hardcoded SWIFT credential material (FIN copy/paste blocks, BIC + password pairs)"
+regex = '''(?i)(swift\s*(password|pwd|credential|fin|key)\s*[:=]\s*['"][^'"]{8,}['"])'''
+tags = ["swift", "credential", "s17"]
+
+[[rules]]
+id = "swift-fin-mt-message-credential"
+description = "Embedded SWIFT {1:F...} session credentials or RMA secrets"
+regex = '''\{1:F\d{4}[A-Z0-9]{12}[^}]*\}'''
+tags = ["swift", "mt-message", "s17"]
+
+[[rules]]
+id = "swift-mt-api-key"
+description = "SWIFT API / gpi bearer token style key"
+regex = '''(?i)(swift|sibos|gpi)[-_]?(api|token|key|secret)[-_]?(id)?\s*[:=]\s*['"][A-Za-z0-9_\-]{16,}['"]'''
+tags = ["swift", "api-key", "s17"]
+
+[[rules]]
+id = "generic-hardcoded-db-password"
+description = "Hardcoded database password in source"
+regex = '''(?i)(db|database|postgres|mysql|mssql|oracle|mongo|redis|jdbc|dsn)[-_]?(password|passwd|pwd)\s*[:=]\s*['"][^'"\s]{6,}['"]'''
+tags = ["database", "password", "s17"]
+
+[[rules]]
+id = "generic-hardcoded-api-key"
+description = "Hardcoded API key / secret assignment"
+regex = '''(?i)(api[_-]?key|apikey|secret[_-]?key|access[_-]?token|auth[_-]?token)\s*[:=]\s*['"][A-Za-z0-9_\-]{16,}['"]'''
+tags = ["api-key", "s17"]
+
+[[rules]]
+id = "aws-access-key-id"
+description = "AWS access key id"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["cloud", "s17"]
+
+[[rules]]
+id = "private-key-block"
+description = "PEM private key committed to the repository"
+regex = '''-----BEGIN (RSA |EC |DSA |OPENSSH |PGP )?PRIVATE KEY( BLOCK)?-----'''
+tags = ["private-key", "s17"]
+
+[[rules]]
+id = "hong-kong-id-card-number"
+description = "Hong Kong Identity Card number (personal data -- HKSAR PDPO s.33)"
+regex = '''[A-Z]{1,2}\d{6}\(\d\)'''
+tags = ["pii", "pdpo", "s17"]
+
+# ---------------------------------------------------------------------------
+# Allow-lists: documentation placeholders and unit-test fixtures only
+# ---------------------------------------------------------------------------
+
+[allowlist]
+description = "Documentation placeholders and obviously fake unit-test fixture values"
+paths = [
+    '''README\.md$''',
+    '''.*/PULL_REQUEST_TEMPLATE\.md$''',
+    '''docs/.*\.md$''',
+    '''tests/.*''',
+]
+regexes = [
+    '''HK88AAAA\d+''',
+    '''HK88GRP\d+''',
+    '''UETR-[A-Z0-9\-]+''',
+    '''ACC-\d+''',
+    '''ALRT-\d+''',
+    '''PC-HKT-\d+''',
+]

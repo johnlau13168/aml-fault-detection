@@ -1,0 +1,30 @@
+# Pre-commit hooks -- DevSecOps gate for aml-fault-detection (HKSAR S17).
+# Install:  pip install pre-commit && pre-commit install
+# Run all:  pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.3
+    hooks:
+      - id: gitleaks
+        name: gitleaks (secret scan -- blocks API keys / DB passwords / SWIFT creds)
+        args: ["detect", "--config", ".gitleaks.toml", "--no-banner", "--redact"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.6
+    hooks:
+      - id: ruff
+        name: ruff (lint)
+        args: ["check", "--config", "pyproject.toml"]
+      - id: ruff-format
+        name: ruff (format check)
+        args: ["format", "--check", "--config", "pyproject.toml"]
+
+  - repo: local
+    hooks:
+      - id: pytest-boundary
+        name: pytest (FS-01/FS-02/FS-03 boundary tests)
+        entry: python -m pytest
+        language: system
+        pass_filenames: false
+        types: [python]
