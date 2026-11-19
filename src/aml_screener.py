@@ -301,7 +301,17 @@ class Alert:
 
 
 class AMLScreener:
-    """Stateful AML screener implementing FS-01, FS-02 and FS-03."""
+    """Stateful AML screener implementing FS-01, FS-02 and FS-03.
+
+    Boundary rule note (BRS-AML-104 / FS-01, Jira KAN-2): settled outward
+    SWIFT MT103 wires alert when ``amt_hkd >= 80000.00`` -- the threshold is
+    inclusive at exactly ``80000.00`` while ``79999.99`` must never alert --
+    and ``dest_ctry_cd`` is in the active high-risk list (IR, KP, MM).
+    Amounts are converted with the T-day FX rate, falling back to the T-1
+    rate, and each ``swift_uetr`` is alerted at most once (idempotency).
+    See BRS-AML-104 (Confluence space AFD) and FS-AML-104 for the full
+    requirements traceability.
+    """
 
     def __init__(
         self,
